@@ -62,15 +62,6 @@ venv.bak/
 .DS_Store
 Thumbs.db
 
-# Chroma vector store data directory
-data/vector_store/
-
-# Processed data output
-data/processed/
-
-# Raw data directory (if data is large or confidential)
-data/raw/
-
 # Python profiling
 .prof
 
@@ -85,3 +76,4 @@ htmlcov/
 # Test output
 .pytest_cache/
 
+data/processed/hsn_knowledge_graph.graphml
