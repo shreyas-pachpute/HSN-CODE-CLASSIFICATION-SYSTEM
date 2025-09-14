@@ -31,7 +31,6 @@ async def test_full_system_scenarios(initialized_query_processor, test_scenarios
             assert "top_matches" in response and len(response["top_matches"]) > 0, \
                 f"[{scenario['id']}] Response is missing 'top_matches' when one was expected."
             
-            # Fix: Check multiple possible structures for metadata access
             first_match = response["top_matches"][0]
             actual_hsn = None
             
@@ -74,7 +73,7 @@ def clean(s):
     import re
     s = s.lower()
     s = s.replace(":", "").replace("-", "")
-    s = re.sub(r"\\*+", "", s)  # Remove asterisks (from markdown bold)
+    s = re.sub(r"\\*+", "", s)  
     s = s.strip()
     s = s.rstrip(string.punctuation)
     return s

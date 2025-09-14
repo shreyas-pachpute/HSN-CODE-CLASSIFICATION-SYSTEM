@@ -1,4 +1,3 @@
-# src/query_processor.py
 import spacy
 import re
 from typing import Dict, Any, List, Tuple
@@ -78,7 +77,6 @@ class HSNQueryProcessor:
 
         intent = "classification"
         selection_keywords = {"select", "choose", "option", "first", "second", "third"}
-        # Correction: use only lemmas in this set
         summary_keywords = {"overview", "category", "type", "kind", "classification"}
 
         if any(token.lemma_ in selection_keywords for token in doc) or query.strip().isdigit():
