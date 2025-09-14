@@ -1,0 +1,61 @@
+test_scenarios:
+  - id: TC001
+    description: "Test disambiguation for a genuinely ambiguous query"
+    query: "natural rubber latex"
+    expected:
+      type: "disambiguation"
+      must_contain: ["40011010", "40011020"]
+
+  - id: TC002
+    description: "Test direct answer for a specific query"
+    query: "HSN code for prevulcanised rubber"
+    expected:
+      type: "classification_result"
+      top_hsn_code: "40011010"
+
+  - id: TC003
+    description: "Test broad category query"
+    query: "Rubber products classification"
+    expected:
+      type: "clarification_prompt"
+      must_contain: ["Chapter 40 covers 'Rubber and Articles Thereof'", "specify the product"]
+
+  - id: TC004
+    description: "Test similar products query (same as TC001)"
+    query: "Natural rubber latex"
+    expected:
+      type: "disambiguation"
+      must_contain: ["40011010", "40011020"]
+
+  - id: TC005
+    description: "Test direct HSN lookup"
+    query: "Tell me about HSN 40011010"
+    expected:
+      type: "classification_result"
+      must_contain: ["Rubber And Articles Thereof", "Prevulcanised","Information for HSN Code 40011010"]
+
+
+  - id: TC006
+    description: "Test fuzzy matching with misspelling"
+    query: "Nylon tyre yarm"
+    expected:
+      type: "classification_result"
+      top_hsn_code: "54021910"
+
+  - id: TC007
+    description: "Test out-of-scope query"
+    query: "laptops"
+    expected:
+      type: "no_result"
+      must_contain: ["couldn't find any relevant HSN codes"]
+
+  - id: TC008
+    description: "Test conversational follow-up (simulated)"
+    query: "1"
+    context:
+      disambiguation_options:
+        - metadata: { hsn_code: "40011010" }
+        - metadata: { hsn_code: "40011020" }
+    expected:
+      type: "classification_result"
+      top_hsn_code: "40011010"

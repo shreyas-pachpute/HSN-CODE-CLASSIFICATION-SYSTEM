@@ -1,0 +1,52 @@
+data_paths:
+  raw_hsn_data: "data/raw/hsn_codes.json"
+  processed_docs: "data/processed/structured_hsn_documents.json"
+
+logging:
+  log_file: "logs/data_processing.log"
+  rotation: "10 MB"
+  retention: "30 days"
+
+data_validation:
+  min_chapter_number: 1
+  max_chapter_number: 99
+  hsn_code_length: 8
+
+knowledge_graph:
+  backend: "networkx"  
+  export_path: "data/processed/hsn_knowledge_graph.graphml"
+  visualization_path: "data/processed/hsn_graph_visualization.html"
+  
+  neo4j:
+    uri: "bolt://localhost:7687"
+    user: "neo4j"
+    password: "your_neo4j_password" 
+
+  llm_enrichment:
+    enabled: false 
+    embedding_model: "sentence-transformers/all-MiniLM-L6-v2"
+    similarity_threshold: 0.85 
+
+rag_system:
+  vector_store:
+    backend: "chroma" 
+    path: "data/vector_store"
+    collection_name: "hsn_codes"
+    embedding_model: "BAAI/bge-small-en-v1.5"
+
+  retrieval:
+    strategy: "graph_contextual" 
+    top_k: 5
+
+  generator:
+    backend: "gemini"
+    model: "gemini-2.0-flash" 
+    gemini_api_key: "AIzaSyD0AJxyzpj0OVQDWtWycgXDR45F2S1MkHw" 
+    temperature: 0.2
+    timeout: 30
+
+  caching:
+    query_cache_ttl: 3600 
+  circuit_breaker:
+    fail_max: 3
+    reset_timeout: 60 
